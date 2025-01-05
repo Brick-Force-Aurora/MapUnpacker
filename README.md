@@ -53,7 +53,7 @@ BrickForce MapUnpacker is a tool designed to convert `regmap` and `geometry` fil
 
 ## Screenshot of UI
 
-![](https://imgur.com/a/p14XVMH)
+![](https://i.imgur.com/IjsNEvL.png)
 
 ## Contributing
 
