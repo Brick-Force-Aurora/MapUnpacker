@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.buttonLoadFile = new MaterialSkin.Controls.MaterialRaisedButton();
             this.pictureThumbnail = new System.Windows.Forms.PictureBox();
@@ -73,7 +74,7 @@
             this.buttonLoadFile.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonLoadFile.Depth = 0;
             this.buttonLoadFile.Icon = null;
-            this.buttonLoadFile.Location = new System.Drawing.Point(292, 26);
+            this.buttonLoadFile.Location = new System.Drawing.Point(273, 26);
             this.buttonLoadFile.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonLoadFile.Name = "buttonLoadFile";
             this.buttonLoadFile.Primary = true;
@@ -98,7 +99,7 @@
             this.buttonLoadAllFiles.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonLoadAllFiles.Depth = 0;
             this.buttonLoadAllFiles.Icon = null;
-            this.buttonLoadAllFiles.Location = new System.Drawing.Point(346, 26);
+            this.buttonLoadAllFiles.Location = new System.Drawing.Point(327, 26);
             this.buttonLoadAllFiles.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonLoadAllFiles.Name = "buttonLoadAllFiles";
             this.buttonLoadAllFiles.Primary = true;
@@ -140,9 +141,9 @@
             this.buttonExport.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonExport.Name = "buttonExport";
             this.buttonExport.Primary = true;
-            this.buttonExport.Size = new System.Drawing.Size(92, 36);
+            this.buttonExport.Size = new System.Drawing.Size(111, 36);
             this.buttonExport.TabIndex = 24;
-            this.buttonExport.Text = "Export RE";
+            this.buttonExport.Text = "Export JSON";
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
             // 
@@ -152,7 +153,7 @@
             this.buttonExportObj.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonExportObj.Depth = 0;
             this.buttonExportObj.Icon = null;
-            this.buttonExportObj.Location = new System.Drawing.Point(647, 26);
+            this.buttonExportObj.Location = new System.Drawing.Point(666, 26);
             this.buttonExportObj.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonExportObj.Name = "buttonExportObj";
             this.buttonExportObj.Primary = true;
@@ -423,7 +424,7 @@
             "Alias",
             "Bricks",
             "Creator"});
-            this.comboSortBy.Location = new System.Drawing.Point(569, 68);
+            this.comboSortBy.Location = new System.Drawing.Point(569, 69);
             this.comboSortBy.Name = "comboSortBy";
             this.comboSortBy.Size = new System.Drawing.Size(129, 21);
             this.comboSortBy.TabIndex = 28;
@@ -466,13 +467,13 @@
             this.buttonExportAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonExportAll.Depth = 0;
             this.buttonExportAll.Icon = null;
-            this.buttonExportAll.Location = new System.Drawing.Point(423, 26);
+            this.buttonExportAll.Location = new System.Drawing.Point(404, 26);
             this.buttonExportAll.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonExportAll.Name = "buttonExportAll";
             this.buttonExportAll.Primary = true;
-            this.buttonExportAll.Size = new System.Drawing.Size(120, 36);
+            this.buttonExportAll.Size = new System.Drawing.Size(139, 36);
             this.buttonExportAll.TabIndex = 31;
-            this.buttonExportAll.Text = "Export All RE";
+            this.buttonExportAll.Text = "Export All JSON";
             this.buttonExportAll.UseVisualStyleBackColor = true;
             this.buttonExportAll.Click += new System.EventHandler(this.buttonExportAll_Click);
             // 
@@ -509,6 +510,10 @@
             this.Controls.Add(this.comboMapSelection);
             this.Controls.Add(this.buttonLoadAllFiles);
             this.Controls.Add(this.buttonLoadFile);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(719, 226);
+            this.MinimumSize = new System.Drawing.Size(719, 226);
             this.Name = "Form1";
             this.Text = "Brick-Force Map Unpacker";
             ((System.ComponentModel.ISupportInitialize)(this.pictureThumbnail)).EndInit();

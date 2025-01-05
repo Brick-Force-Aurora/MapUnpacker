@@ -71,6 +71,9 @@
     <Prefer32Bit>true</Prefer32Bit>
     <IntermediateOutputPath>C:\Users\Jan\AppData\Local\Temp\vsF35A.tmp\x64\Release\</IntermediateOutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>bf-logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialSkin.Updated.0.2.2\lib\MaterialSkin.dll</HintPath>
@@ -162,6 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bf-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

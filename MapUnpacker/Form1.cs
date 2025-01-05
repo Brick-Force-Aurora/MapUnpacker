@@ -24,7 +24,7 @@ namespace MapUnpacker
             MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Grey900, Primary.Lime600, Primary.Grey900, Accent.Lime400, TextShade.WHITE);
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Grey900, Primary.Grey800, Primary.Grey900, Accent.Lime400, TextShade.WHITE);
             materialSkinManager.ROBOTO_MEDIUM_10 = new Font("Tahoma", 10);
             materialSkinManager.ROBOTO_MEDIUM_11 = new Font("Tahoma", 11);
             materialSkinManager.ROBOTO_MEDIUM_12 = new Font("Tahoma", 12);
