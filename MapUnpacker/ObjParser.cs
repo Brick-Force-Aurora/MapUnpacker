@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Windows.Forms;
 
 namespace MapUnpacker
 {
@@ -13,6 +14,8 @@ namespace MapUnpacker
 
         public static string mtlString; //String to create mtl file
 
+        private static bool ignoreWarnings = false;
+
         //Parse single obj file
         public static Obj LoadObj(string name)
         {
@@ -23,7 +26,8 @@ namespace MapUnpacker
 
             Obj obj = new Obj();
             obj.name = name;
-            string[] objLines = File.ReadAllLines("Resources\\OBJ\\" + name + ".obj");
+            string objFilePath = Path.Combine("Resources", "OBJ", name + ".obj");
+            string[] objLines = CheckPrerequisites(objFilePath);
             string[] mtlLines;
             bool groupFlag = false;
             GroupObj curGroup = new GroupObj();
@@ -113,6 +117,46 @@ namespace MapUnpacker
 
             loadedObjs.Add(obj);
             return obj;
+        }
+
+        public static string[] CheckPrerequisites(string name)
+        {
+            string objFilePath = Path.Combine("Resources", "OBJ", name + ".obj");
+
+            // Check if warnings are ignored or if the file exists
+            if (ignoreWarnings || File.Exists(objFilePath))
+            {
+                return File.Exists(objFilePath) ? File.ReadAllLines(objFilePath) : Array.Empty<string>();
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"The OBJ file '{name}.obj' is missing in the 'Resources\\OBJ' directory.\n\n" +
+                "Options:\n" +
+                "- Retry: Attempt to reload the file.\n" +
+                "- Ignore All: Ignore all missing file warnings for this session.\n" +
+                "- Abort: Ignore the Warning.",
+                "Missing OBJ File",
+                MessageBoxButtons.AbortRetryIgnore,
+                MessageBoxIcon.Warning
+            );
+
+            switch (result)
+            {
+                case DialogResult.Ignore:
+                    // User chooses to ignore all warnings
+                    ignoreWarnings = true;
+                    return Array.Empty<string>();
+
+                case DialogResult.Abort:
+                    // User chooses to exit the application
+                    return Array.Empty<string>(); // This line won't be reached
+
+                case DialogResult.Retry:
+                    // User retries the file loading
+                    return CheckPrerequisites(name);
+            }
+
+            return Array.Empty<string>();
         }
     }
 }

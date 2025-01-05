@@ -31,14 +31,23 @@ namespace MapUnpacker
             materialSkinManager.ROBOTO_REGULAR_11 = new Font("Tahoma", 9);
 
             //get brick data collection
-            if (File.Exists("..\\DATA\\bricks.json"))
+            if (File.Exists("..\\Resources\\bricks.json"))
             {
-                string json = File.ReadAllText("..\\DATA\\bricks.json");
+                string json = File.ReadAllText("..\\Resources\\bricks.json");
                 RegMapManager.bricks = JsonConvert.DeserializeObject<List<Brick>>(json);
                 Converter.BuildAliasToRE();
             } else
             {
-                throw new Exception("Resources/bricks.json is missing");
+                // Display a notification to the user
+                MessageBox.Show(
+                    "The required file 'bricks.json' is missing.\nPlease ensure the file is located in the 'Resources' directory.",
+                    "Missing File",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                // Optionally, exit the application
+                Environment.Exit(1);
             }
         }
 
@@ -167,19 +176,12 @@ namespace MapUnpacker
             return name;
         }
 
-        private string CreateExportDirectory(string name)
+        private string CreateExportDirectory(string name, int id)
         {
             Directory.CreateDirectory("Export");
-            string path = "Export\\" + name;
+            string path = "Export\\" + name + "-" + id;
             Directory.CreateDirectory(path);
-            return path;
-        }
-
-        private string CreateExportREDirectory(string name, int id)
-        {
-            Directory.CreateDirectory("ExportRE");
-            string path = "ExportRE\\" + name + "-" + id;
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path + "\\OBJ");
             return path;
         }
 
@@ -205,6 +207,16 @@ namespace MapUnpacker
         //export BF RE json map file
         private void buttonExport_Click(object sender, EventArgs e)
         {
+            if (RegMapManager.curRegMap == null)
+            {
+                MessageBox.Show(
+                    $"You did not load/ select a regmap file or something else went wrong.",
+                    "Missing Regmap File",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
             string json = JsonConvert.SerializeObject(Converter.RegMapToBFRE(RegMapManager.curRegMap));
             MapHeader mapData = new MapHeader(RegMapManager.curRegMap);
             string mapHeader = JsonConvert.SerializeObject(mapData);
@@ -212,7 +224,7 @@ namespace MapUnpacker
             json = FixJSONFormat(json);
             string exportString = "{\"MapData\":{" + mapHeader + "," + json;
             string name = FilterPathName(RegMapManager.curRegMap.alias);
-            string path = CreateExportREDirectory(name, RegMapManager.curRegMap.map);
+            string path = CreateExportDirectory(name, RegMapManager.curRegMap.map);
             File.WriteAllText(path + "\\" + name + ".json", exportString);
             try
             {
@@ -243,7 +255,7 @@ namespace MapUnpacker
                 json = FixJSONFormat(json);
                 string exportString = "{\"MapData\":{" + mapHeader + "," + json;
                 string name = FilterPathName(regMap.alias);
-                string path = CreateExportREDirectory(name, regMap.map);
+                string path = CreateExportDirectory(name, regMap.map);
                 File.WriteAllText(path + "\\" + name + ".json", exportString);
                 try
                 {
@@ -277,10 +289,21 @@ namespace MapUnpacker
         private void buttonExportObj_Click(object sender, EventArgs e)
         {
             //get obj string
+            if (RegMapManager.curRegMap == null)
+            {
+                MessageBox.Show(
+                    $"You did not load/ select a regmap file or something else went wrong.",
+                    "Missing Regmap File",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
             string obj = Converter.RegMapToOBJ(RegMapManager.curRegMap);
             string name = FilterPathName(RegMapManager.curRegMap.alias);
+            int id = RegMapManager.curRegMap.map;
 
-            string path = CreateExportDirectory(name);
+            string path = CreateExportDirectory(name, id);
 
             //save textures
             for (int i = 0; i < ObjParser.referencedTextures.Count; i++)

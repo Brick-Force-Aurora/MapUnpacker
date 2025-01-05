@@ -405,9 +405,9 @@
             this.checkSkipNoGeometry.MouseState = MaterialSkin.MouseState.HOVER;
             this.checkSkipNoGeometry.Name = "checkSkipNoGeometry";
             this.checkSkipNoGeometry.Ripple = true;
-            this.checkSkipNoGeometry.Size = new System.Drawing.Size(141, 30);
+            this.checkSkipNoGeometry.Size = new System.Drawing.Size(197, 30);
             this.checkSkipNoGeometry.TabIndex = 27;
-            this.checkSkipNoGeometry.Text = "Skip No Geometry";
+            this.checkSkipNoGeometry.Text = "Skip Missing Geometry File";
             this.checkSkipNoGeometry.UseVisualStyleBackColor = true;
             this.checkSkipNoGeometry.CheckedChanged += new System.EventHandler(this.checkSkipNoGeometry_CheckedChanged);
             // 
@@ -480,7 +480,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(710, 226);
+            this.ClientSize = new System.Drawing.Size(719, 226);
             this.Controls.Add(this.buttonExportAll);
             this.Controls.Add(this.buttonCLeanFolder);
             this.Controls.Add(this.labelSortBy);

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Reflection;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MapUnpacker
 {
