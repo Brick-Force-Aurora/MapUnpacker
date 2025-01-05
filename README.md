@@ -17,7 +17,7 @@ BrickForce MapUnpacker is a tool designed to convert `regmap` and `geometry` fil
 - .NET Framework 4.8 installed
 
 ### Download
-- Download the latest release from the [Releases](https://github.com/yourrepository/brickforce-mapunpacker/releases).
+- Download the latest release from the [Releases](https://github.com/Brick-Force-Aurora/MapUnpacker/releases).
 
 ### Installation Steps
 1. Unzip the downloaded release.
@@ -45,7 +45,7 @@ BrickForce MapUnpacker is a tool designed to convert `regmap` and `geometry` fil
 ### Steps
 1. Clone the project:
    ```bash
-   git clone https://github.com/yourrepository/brickforce-mapunpacker.git
+   git clone https://github.com/Brick-Force-Aurora/MapUnpacker.git
    ```
 2. Open the solution in Visual Studio.
 3. Build the project.
@@ -53,7 +53,7 @@ BrickForce MapUnpacker is a tool designed to convert `regmap` and `geometry` fil
 
 ## Screenshot of UI
 
-(Insert a screenshot of the application's UI here)
+![](https://imgur.com/a/p14XVMH)
 
 ## Contributing
 
