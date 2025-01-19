@@ -1,0 +1,13 @@
+
+newmtl steel_01
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka ST_Metal_1.dds
+map_Kd ST_Metal_1.dds
+map_Ks ST_Metal_1.dds
+map_d ST_Metal_1.dds

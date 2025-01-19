@@ -1,0 +1,13 @@
+
+newmtl hatch
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka hatch.dds
+map_Kd hatch.dds
+map_Ks hatch.dds
+map_d hatch.dds

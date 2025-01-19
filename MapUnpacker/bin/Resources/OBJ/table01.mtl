@@ -1,0 +1,13 @@
+
+newmtl table01
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.588235 0.588235
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka table.dds
+map_Kd table.dds
+map_Ks table.dds
+map_d table.dds

@@ -1,0 +1,39 @@
+
+newmtl canon_t_No_Name
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka antiaircraft_gun.dds
+map_Kd antiaircraft_gun.dds
+map_Ks antiaircraft_gun.dds
+map_d antiaircraft_gun.dds
+
+newmtl canon_t_Material__131
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka antiaircraft_gun.dds
+map_Kd antiaircraft_gun.dds
+map_Ks antiaircraft_gun.dds
+map_d antiaircraft_gun.dds
+
+newmtl canon_b_Material__131
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka antiaircraft_gun.dds
+map_Kd antiaircraft_gun.dds
+map_Ks antiaircraft_gun.dds
+map_d antiaircraft_gun.dds

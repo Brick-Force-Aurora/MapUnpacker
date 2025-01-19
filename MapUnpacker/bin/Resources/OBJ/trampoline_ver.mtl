@@ -1,0 +1,26 @@
+
+newmtl trampoline_ver_No_Name
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka trampoline_ver.dds
+map_Kd trampoline_ver.dds
+map_Ks trampoline_ver.dds
+map_d trampoline_ver.dds
+
+newmtl trampoline_ver
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka trampoline_ver.dds
+map_Kd trampoline_ver.dds
+map_Ks trampoline_ver.dds
+map_d trampoline_ver.dds

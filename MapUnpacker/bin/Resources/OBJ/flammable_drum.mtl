@@ -1,0 +1,13 @@
+
+newmtl flammable_drum
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.588235 0.588235
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka flammable_drum.dds
+map_Kd flammable_drum.dds
+map_Ks flammable_drum.dds
+map_d flammable_drum.dds

@@ -1,0 +1,26 @@
+
+newmtl lamp_2_light
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka lamp_2.dds
+map_Kd lamp_2.dds
+map_Ks lamp_2.dds
+map_d lamp_2.dds
+
+newmtl lamp_2_body
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka lamp_2.dds
+map_Kd lamp_2.dds
+map_Ks lamp_2.dds
+map_d lamp_2.dds

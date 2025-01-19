@@ -1,0 +1,13 @@
+
+newmtl crater
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka crater.dds
+map_Kd crater.dds
+map_Ks crater.dds
+map_d crater.dds

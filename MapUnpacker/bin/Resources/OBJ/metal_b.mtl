@@ -1,0 +1,13 @@
+
+newmtl metal_b
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka MetalVariation_a.dds
+map_Kd MetalVariation_a.dds
+map_Ks MetalVariation_a.dds
+map_d MetalVariation_a.dds

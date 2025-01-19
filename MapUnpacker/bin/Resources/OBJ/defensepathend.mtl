@@ -1,0 +1,39 @@
+
+newmtl defensePathEnd_defensePathEdge
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka defensePathEdge.dds
+map_Kd defensePathEdge.dds
+map_Ks defensePathEdge.dds
+map_d defensePathEdge.dds
+
+newmtl defensePathEnd_defensePathEnd
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka defensePathEnd.dds
+map_Kd defensePathEnd.dds
+map_Ks defensePathEnd.dds
+map_d defensePathEnd.dds
+
+newmtl defensePathBase_defensePathCube3
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka defensePathCube3.dds
+map_Kd defensePathCube3.dds
+map_Ks defensePathCube3.dds
+map_d defensePathCube3.dds

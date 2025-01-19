@@ -1,0 +1,13 @@
+
+newmtl ww2_stone_08
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka ww2_stone_08.dds
+map_Kd ww2_stone_08.dds
+map_Ks ww2_stone_08.dds
+map_d ww2_stone_08.dds

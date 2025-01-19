@@ -1,0 +1,13 @@
+
+newmtl ww2_box_02
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.588235 0.588235
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka ww2_box_02.dds
+map_Kd ww2_box_02.dds
+map_Ks ww2_box_02.dds
+map_d ww2_box_02.dds

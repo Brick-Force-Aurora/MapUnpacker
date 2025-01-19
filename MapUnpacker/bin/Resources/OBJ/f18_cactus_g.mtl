@@ -1,0 +1,16 @@
+
+newmtl default1
+illum 2
+
+newmtl F18_CACTUS_G
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.588235 0.588235
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka F18_CACTUS_G.dds
+map_Kd F18_CACTUS_G.dds
+map_Ks F18_CACTUS_G.dds
+map_d F18_CACTUS_G.dds

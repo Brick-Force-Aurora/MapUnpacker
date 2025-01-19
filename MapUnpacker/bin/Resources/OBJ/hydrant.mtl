@@ -1,0 +1,13 @@
+
+newmtl hydrant_ventilator
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.098039 0.098039
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka hydrant.dds
+map_Kd hydrant.dds
+map_Ks hydrant.dds
+map_d hydrant.dds

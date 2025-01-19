@@ -1,0 +1,13 @@
+
+newmtl barricade
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.588235 0.588235
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka barricade.dds
+map_Kd barricade.dds
+map_Ks barricade.dds
+map_d barricade.dds

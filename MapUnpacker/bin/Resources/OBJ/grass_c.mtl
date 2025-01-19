@@ -1,0 +1,13 @@
+
+newmtl grass_c
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka GrassBase.dds
+map_Kd GrassBase.dds
+map_Ks GrassBase.dds
+map_d GrassBase.dds

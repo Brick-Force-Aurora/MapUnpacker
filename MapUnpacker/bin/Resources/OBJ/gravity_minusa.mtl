@@ -1,0 +1,26 @@
+
+newmtl gravity_brick_blueglow
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka gravity_blue_glow.dds
+map_Kd gravity_blue_glow.dds
+map_Ks gravity_blue_glow.dds
+map_d gravity_blue_glow.dds
+
+newmtl gravity_brick
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka gravity_brick.dds
+map_Kd gravity_brick.dds
+map_Ks gravity_brick.dds
+map_d gravity_brick.dds

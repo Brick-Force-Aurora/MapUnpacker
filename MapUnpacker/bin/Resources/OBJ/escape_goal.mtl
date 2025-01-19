@@ -1,0 +1,39 @@
+
+newmtl Escape_Goal01
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka Escape_Goal01.dds
+map_Kd Escape_Goal01.dds
+map_Ks Escape_Goal01.dds
+map_d Escape_Goal01.dds
+
+newmtl Escape_Goal02
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka Escape_Goal02.dds
+map_Kd Escape_Goal02.dds
+map_Ks Escape_Goal02.dds
+map_d Escape_Goal02.dds
+
+newmtl Escape_Goal_neon
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka Escape_Goal_neon.dds
+map_Kd Escape_Goal_neon.dds
+map_Ks Escape_Goal_neon.dds
+map_d Escape_Goal_neon.dds

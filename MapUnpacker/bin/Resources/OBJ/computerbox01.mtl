@@ -1,0 +1,13 @@
+
+newmtl computerBox01
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka computerBox01.dds
+map_Kd computerBox01.dds
+map_Ks computerBox01.dds
+map_d computerBox01.dds

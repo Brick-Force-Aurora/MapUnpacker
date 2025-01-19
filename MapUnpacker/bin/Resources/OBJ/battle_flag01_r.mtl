@@ -1,0 +1,26 @@
+
+newmtl battle_flag01_r
+Ka 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka battle_flag01-1.dds
+map_Kd battle_flag01-1.dds
+map_Ks battle_flag01-1.dds
+map_d battle_flag01-1.dds
+
+newmtl battle_flag_r
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.588235 0.588235
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka battle_flag_r.dds
+map_Kd battle_flag_r.dds
+map_Ks battle_flag_r.dds
+map_d battle_flag_r.dds

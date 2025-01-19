@@ -1,0 +1,13 @@
+
+newmtl dustbin
+Ka 0.200000 0.200000 0.200000
+Kd 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka dustbin.dds
+map_Kd dustbin.dds
+map_Ks dustbin.dds
+map_d dustbin.dds

@@ -1,0 +1,13 @@
+
+newmtl slope_soil
+Ka 0.200000 0.200000 0.200000
+Kd 0.588235 0.098039 0.098039
+Ks 0.200000 0.200000 0.200000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+map_Ka slope_soil.dds
+map_Kd slope_soil.dds
+map_Ks slope_soil.dds
+map_d slope_soil.dds
