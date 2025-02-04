@@ -27,7 +27,7 @@ namespace MapUnpacker
             Obj obj = new Obj();
             obj.name = name;
             string objFilePath = Path.Combine("Resources", "OBJ", name + ".obj");
-            string[] objLines = CheckPrerequisites(objFilePath);
+            string[] objLines = CheckPrerequisites(name);
             string[] mtlLines;
             bool groupFlag = false;
             GroupObj curGroup = new GroupObj();

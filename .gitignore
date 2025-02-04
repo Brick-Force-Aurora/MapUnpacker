@@ -1,2 +1,9 @@
 .vs/
 packages/
+MapUnpacker/bin/Export
+MapUnpacker/bin/MapUnpacker.exe
+MapUnpacker/bin/MapUnpacker.exe.config
+MapUnpacker/bin/MapUnpacker.pdb
+MapUnpacker/bin/MaterialSkin.dll
+MapUnpacker/bin/Newtonsoft.Json.dll
+MapUnpacker/bin/Newtonsoft.Json.xml

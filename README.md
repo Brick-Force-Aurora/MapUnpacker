@@ -27,6 +27,7 @@ BrickForce MapUnpacker is a tool designed to convert `regmap` and `geometry` fil
 
 - `DATA/bricks.json`: This file contains a JSON database of all available bricks, along with metadata about these bricks.
 - `MapUnpacker/bin`: The directory containing the application build output.
+- `MapUnpacker/bin/Resources`: The obj files need to be located here next to the exe.
 
 ## How to Use
 
