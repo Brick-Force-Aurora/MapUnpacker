@@ -1,0 +1,79 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MapUnpackerMVVM.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:views="clr-namespace:MapUnpackerMVVM.Views"
+        mc:Ignorable="d" d:DesignWidth="1366" d:DesignHeight="768"
+        x:Class="MapUnpackerMVVM.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/bf-logo.ico"
+        Title="MapUnpackerMVVM"
+		MinHeight="600"
+		MinWidth="1200"
+		Background="#222222">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+		<Grid RowDefinitions="Auto, *, Auto" Margin="10">
+			<!-- Menu Bar -->
+			<StackPanel Orientation="Horizontal" Spacing="5">
+				<Button x:Name="BtnLoadFile" Content="Open File" Click="OnLoadFileClick"/>
+				<Button x:Name="BtnLoadFolder" Content="Open Folder" Click="OnLoadFolderClick"/>
+				<Button x:Name="BtnSettings" Content="Settings" Click="OnSettingsClick"/>
+			</StackPanel>
+
+			<!-- Main Content Area -->
+			<Grid ColumnDefinitions="3*, 2*, 1*" Row="1" Margin="0,10,0,10">
+				<!-- Left: Placeholder for TreeDataGrid -->
+				<DataGrid Margin="0,0,10,0"
+					ItemsSource="{Binding RegMaps, Mode=TwoWay}"
+					SelectedItem="{Binding SelectedRegMap, Mode=TwoWay}"
+					IsReadOnly="True"
+					CanUserReorderColumns="True"
+					CanUserResizeColumns="True"
+					CanUserSortColumns="True"
+					GridLinesVisibility="All"
+					BorderThickness="1" BorderBrush="Gray"
+					SelectionChanged="OnRegMapSelected">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Name"  Binding="{Binding alias}"/>
+						<DataGridTextColumn Header="Map ID"  Binding="{Binding map}"/>
+						<DataGridTextColumn Header="Bricks"  Binding="{Binding geometry.brickCount}"/>
+						<DataGridTextColumn Header="Creator" Binding="{Binding developer}" />
+					</DataGrid.Columns>
+				</DataGrid>
+
+				<!-- Middle: Input Fields -->
+				<StackPanel Grid.Column="1" Spacing="5" Margin="0,0,10,0">
+					<TextBox x:Name="TxtName" Watermark="Map Name" Text="{Binding MapName}"/>
+					<TextBox x:Name="TxtMapId" Watermark="Map ID" Text="{Binding MapId}"/>
+					<TextBox x:Name="TxtCreator" Watermark="Creator" Text="{Binding Creator}"/>
+					<TextBox x:Name="TxtDate" Watermark="Date" Text="{Binding Date}" IsReadOnly="True"/>
+					<TextBox x:Name="TxtBrickCount" Watermark="Brick Count" IsReadOnly="True" Text="{Binding BrickCount}"/>
+					<TextBox x:Name="TxtModes" Watermark="Modes" IsReadOnly="True" Text="{Binding Modes}"/>
+					<CheckBox x:Name="ChkOfficial" Content="Official" IsChecked="{Binding IsOfficial}"/>
+					<CheckBox x:Name="ChkClan" Content="Clan" IsChecked="{Binding IsClan}"/>
+				</StackPanel>
+
+				<!-- Right: Thumbnail and Export Button -->
+				<StackPanel Grid.Column="2" Spacing="10">
+					<Image Source="{Binding Thumbnail}" Stretch="Uniform" Width="200" Height="200"/>
+					<Button x:Name="BtnExportAll" Height="50" Width="200" HorizontalAlignment="Center" Click="OnExportAllClick">
+						<TextBlock Text="Export" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Button>
+				</StackPanel>
+			</Grid>
+
+			<!-- Log Expander spanning the full width -->
+			<Expander x:Name="LogExpander" Header="Log" IsExpanded="False" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300">
+					<TextBlock x:Name="LogTextBlock" TextWrapping="Wrap"
+							   FontFamily="Monospace" FontSize="12" />
+				</ScrollViewer>
+			</Expander>
+		</Grid>
+</Window>

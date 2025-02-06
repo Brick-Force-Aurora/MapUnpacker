@@ -1,0 +1,26 @@
+# Ignore build and release output
+bin/
+obj/
+publish/
+*.exe
+*.dll
+*.pdb
+*.db
+*.log
+*.lock
+*.cache
+
+# Avalonia-specific ignores
+**/bin/
+**/obj/
+**/AppPackages/
+**/BundleArtifacts/
+**/nuget/
+**/Logs/
+
+# Rider & VS Code
+.idea/
+.vscode/
+*.suo
+*.user
+*.vs/
