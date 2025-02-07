@@ -11,12 +11,15 @@ using Avalonia.VisualTree;
 using MsBox.Avalonia.Enums;
 using MsBox.Avalonia;
 using System.Linq;
+using Avalonia.Media;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Models;
+using System.Collections.Generic;
 
 namespace MapUnpackerMVVM.Views;
 
-public partial class SettingsDialog : UserControl
+public partial class SettingsDialog : Window
 {
-    private readonly string settingsFilePath = "settings.json";
     private SettingsDialogViewModel _viewModel;
 
     public SettingsDialog()
@@ -38,9 +41,9 @@ public partial class SettingsDialog : UserControl
     {
         try
         {
-            if (File.Exists(settingsFilePath))
+            if (File.Exists(Global.settingsFilePath))
             {
-                string json = File.ReadAllText(settingsFilePath);
+                string json = File.ReadAllText(Global.settingsFilePath);
                 var settings = JsonSerializer.Deserialize<SettingsDialogViewModel>(json);
 
                 if (settings != null)
@@ -53,7 +56,7 @@ public partial class SettingsDialog : UserControl
                     _viewModel.DefaultExportObj = settings.DefaultExportObj;
                     _viewModel.DefaultExportPlaintext = settings.DefaultExportPlaintext;
                 }
-                Global.Print("Loaded Settings from File.");
+                Global.PrintLine("Loaded Settings from File.");
             }
             else
             {
@@ -66,12 +69,12 @@ public partial class SettingsDialog : UserControl
                 _viewModel.DefaultExportObj = true;
                 _viewModel.DefaultExportPlaintext = true;
 
-                Global.Print("Initalised default values.");
+                Global.PrintLine("Initalised default values.");
             }
         }
         catch (Exception ex)
         {
-            Global.Print("Error loading settings: " + ex.Message);
+            Global.PrintLine("Error loading settings: " + ex.Message);
         }
     }
 
@@ -80,7 +83,7 @@ public partial class SettingsDialog : UserControl
         try
         {
             string json = JsonSerializer.Serialize(_viewModel, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(settingsFilePath, json);
+            File.WriteAllText(Global.settingsFilePath, json);
 
             // Update global settings
             Global.SkipMissingGeometry = _viewModel.SkipMissingGeometry;
@@ -91,17 +94,12 @@ public partial class SettingsDialog : UserControl
             Global.DefaultExportObj = _viewModel.DefaultExportObj;
             Global.DefaultExportPlaintext = _viewModel.DefaultExportPlaintext;
 
-            Global.Print("Settings saved successfully.");
+            Global.PrintLine("Settings saved successfully.");
         }
         catch (Exception ex)
         {
-            Global.Print($"Error saving settings: {ex.Message}");
+            Global.PrintLine($"Error saving settings: {ex.Message}");
         }
-    }
-
-    private void OnCloseClick(object? sender, RoutedEventArgs e)
-    {
-        this.IsVisible = false; // Hide the dialog
     }
 
     private async void OnClearFoldersClick(object? sender, RoutedEventArgs e)
@@ -113,16 +111,33 @@ public partial class SettingsDialog : UserControl
 
             if (window != null)
             {
-                var messageBox = MessageBoxManager
-                    .GetMessageBoxStandard("Confirm Deletion",
-                    $"Are you sure you want to delete files in: {folderPath}?",
-                    ButtonEnum.YesNo,
-                    Icon.Warning);
+                var messageBox = MessageBoxManager.GetMessageBoxCustom(
+                    new MessageBoxCustomParams
+                    {
+                        ButtonDefinitions = new List<ButtonDefinition>
+                        {
+                            new ButtonDefinition { Name = "Yes" },
+                            new ButtonDefinition { Name = "No" },
+                        },
+                        ContentTitle = "Confirm Deletion",
+                        ContentMessage = $"Are you sure you want to delete files in: {folderPath}?",
 
-                var result = await messageBox.ShowWindowDialogAsync(window);
-                if (result != ButtonResult.Yes)
+                        // Centering and Sizing
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        ShowInCenter = true,
+                        CanResize = false,
+                        MaxWidth = 500,
+                        MaxHeight = 250,
+                        SizeToContent = SizeToContent.WidthAndHeight,
+                        Topmost = true,
+
+                        // Background & Styling
+                        WindowIcon = new WindowIcon("Assets/bf-logo.ico"), // Set a custom window icon
+                    });
+                var result = await messageBox.ShowAsPopupAsync(window);
+                if (result != "Yes")
                 {
-                    return; // User canceled deletion
+                   return; // User canceled deletion
                 }
             }
 
@@ -134,11 +149,11 @@ public partial class SettingsDialog : UserControl
                 File.Delete(file);
             }
 
-            Global.Print("Selected folder cleaned successfully.");
+            Global.PrintLine("Selected folder cleaned successfully.");
         }
         catch (Exception ex)
         {
-            Global.Print($"Error clearing folders: {ex.Message}");
+            Global.PrintLine($"Error clearing folders: {ex.Message}");
         }
     }
 

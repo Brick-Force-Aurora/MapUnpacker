@@ -1,21 +1,23 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="360"
              x:Class="MapUnpackerMVVM.Views.SettingsDialog"
              xmlns:vm="using:MapUnpackerMVVM.ViewModels"
              x:DataType="vm:SettingsDialogViewModel"
-			 Background="#00000080">
+			 Icon="/Assets/bf-logo.ico"
+			Title="Settings"
+			MinHeight="360"
+			MinWidth="640"
+			Width="640"
+			Height="360"
+			Background="#222222">
 	<Design.DataContext>
 		<vm:SettingsDialogViewModel/>
 	</Design.DataContext>
 
-	<Border CornerRadius="15" Background="#444444" Padding="0" Margin="20">
 		<Grid RowDefinitions="*, Auto" ColumnDefinitions="*, Auto" Margin="10">
-			<!-- Close Button -->
-			<Button Content="X" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnCloseClick"/>
-
 			<!-- Main Content -->
 			<StackPanel Grid.Row="0" Spacing="5">
 				<CheckBox Content="Skip Missing Geometry" IsChecked="{Binding SkipMissingGeometry}" />
@@ -29,7 +31,6 @@
 			</StackPanel>
 
 			<!-- Save Button -->
-			<Button Grid.Row="1" Grid.Column="1" Content="Save" HorizontalAlignment="Right" Click="OnSaveClick"/>
+			<Button Grid.Row="1" Grid.Column="1" Content="Apply" HorizontalAlignment="Right" Click="OnSaveClick"/>
 		</Grid>
-	</Border>
-</UserControl>
+</Window>

@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Threading;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Text;
+using System.IO;
 
 namespace MapUnpacker
 {
@@ -16,7 +18,6 @@ namespace MapUnpacker
         public static BFREMap RegMapToBFRE(RegMap regMap)
         {
             BFREMap map = new BFREMap();
-            Random rnd = new Random();
 
             //Loop over all bricks
             for (int i = 0; i < regMap.geometry.brickCount; i++)
@@ -27,36 +28,87 @@ namespace MapUnpacker
 
                 string name = aliasToRE[regMap.geometry.dic[i].brick.brickAlias];
                 List<BFREBrick> list = (List<BFREBrick>)typeof(BFREMap).GetField(name, BindingFlags.Public | BindingFlags.Instance).GetValue(map);
-                list.Add(brick);
-                //Randomly assign BF RE brick type for testing purposes
-                /*int index = rnd.Next(12);
-                switch (index)
-                {
-                    case 0:
-                        map.Grass1.Add(brick); break;
-                    case 1:
-                        map.Grass2.Add(brick); break;
-                    case 2:
-                        map.Grass3.Add(brick); break;
-                    case 3:
-                        map.Ground1.Add(brick); break;
-                    case 4:
-                        map.Ground2.Add(brick); break;
-                    case 6:
-                        map.Leaf1.Add(brick); break;
-                    case 7:
-                        map.Leaf2.Add(brick); break;
-                    case 8:
-                        map.Leaf3.Add(brick); break;
-                    case 9:
-                        map.Metal1.Add(brick); break;
-                    case 10:
-                        map.Metal2.Add(brick); break;
-                    case 11:
-                        map.Metal3.Add(brick); break;
-                }*/
+                list.Add(brick);  
             }
             return map;
+        }
+
+        public static string RegMapToPlaintext(RegMap regMap)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine($"MetaData:");
+                sb.AppendLine($"\tAlias: {regMap.alias}");
+                sb.AppendLine($"\tMap ID: {regMap.map}");
+                sb.AppendLine($"\tDownload Count: {regMap.downloadCount}");
+                sb.AppendLine($"\tDownload Fee: {regMap.downloadFee}");
+                sb.AppendLine($"\tBlocked: {regMap.blocked}");
+                sb.AppendLine($"\tClan: {regMap.clanMatchable}");
+                sb.AppendLine($"\tDeveloper: {regMap.developer}");
+                sb.AppendLine($"\tLikes: {regMap.likes}");
+                sb.AppendLine($"\tDislakes: {regMap.disLikes}");
+                sb.AppendLine($"\tModes: {regMap.modeMask}");
+                sb.AppendLine($"\tOfficial: {regMap.officialMap}");
+                sb.AppendLine($"\tRank: {regMap.Rank}");
+                sb.AppendLine($"\tRank Change: {regMap.RankChg}");
+                sb.AppendLine($"\tRegistration Date: {regMap.regDate}");
+                sb.AppendLine($"\tRelease: {regMap.release}");
+                sb.AppendLine($"\tLatest Release: {regMap.latestRelease}");
+                sb.AppendLine($"\tLatest File Version: {regMap.latestFileVer}");
+                sb.AppendLine($"\tFile Version: {regMap.ver}");
+
+                Global.PrintLine("Processed MetaData");
+
+                // Loop over all bricks and export their properties
+                for (int i = 0; i < regMap.geometry.brickCount; i++)
+                {
+                    var brickData = regMap.geometry.dic[i];
+
+                    string brickLine = $"Brick {i + 1}: " +
+                                       $"Code={brickData.Code}: " +
+                                       $"Seq={brickData.Seq}: " +
+                                       $"Alias={brickData.brick.brickAlias}, " +
+                                       $"Position=({brickData.PosX * 100}, {brickData.PosY * 100}, {brickData.PosZ * 100}), " +
+                                       $"Rotation={GetRotation(brickData.Rot)}";
+
+                    sb.AppendLine(brickLine);
+
+                    if (i % 100 == 0)
+                    {
+                        if (i == 0)
+                        {
+                            Global.PrintLine("Processing.. " + (i + 1) + "/" + regMap.geometry.brickCount);
+                        }
+                        else
+                        {
+                            Global.PrintReplace("Processing.. " + (i + 1) + "/" + regMap.geometry.brickCount);
+                        }
+                    }
+                    if (i == regMap.geometry.brickCount - 1)
+                    {
+                        Global.PrintReplace("Processing.. " + (i + 1) + "/" + regMap.geometry.brickCount);
+                    }
+                }
+
+                sb.AppendLine($"Thumbnail: ");
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    regMap.thumbnail.Save(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
+                    sb.AppendLine(Convert.ToBase64String(imageBytes));
+                }
+
+                Global.PrintLine("Processed Thumbnail");
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                Global.Print($"Error converting bricks: {ex.Message}");
+                return "";
+            }
         }
 
         //Rotate vertex to match it's brick's rotation index, bricks can be rotated 90, 180, 270 degrees around the Y axis
@@ -165,15 +217,31 @@ namespace MapUnpacker
                 //Increment buffer index in steps of 100
                 if (i % 100 == 0)
                 {
-                    Global.Print("Processing.. " + i + "/" + regMap.geometry.brickCount);
+                    if (i == 0)
+                    {
+                        Global.PrintLine("Processing.. " + (i +1) + "/" + regMap.geometry.brickCount);
+                    } else
+                    {
+                        Global.PrintReplace("Processing.. " + (i + 1) + "/" + regMap.geometry.brickCount);
+                    }
                     bufferIndex++;
+                }
+                if (i == regMap.geometry.brickCount - 1)
+                {
+                    Global.PrintReplace("Processing.. " + (i + 1) + "/" + regMap.geometry.brickCount);
                 }
             }
 
             //Combine buffer to final obj string
             for (int i = 0; i < buffer.Length; i++)
             {
-                Global.Print("Assembling.. " + (i + 1)+ "/" + buffer.Length);
+                if(i == 0)
+                {
+                    Global.PrintLine("Assembling.. " + (i + 1) + "/" + buffer.Length);
+                } else
+                {
+                    Global.PrintReplace("Assembling.. " + (i + 1) + "/" + buffer.Length);
+                }
 
                 obj += buffer[i];
                 buffer[i] = string.Empty;

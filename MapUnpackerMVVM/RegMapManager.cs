@@ -156,7 +156,7 @@ namespace MapUnpacker
 
                         if (brickInst == null || brick == null)
                         {
-                            Global.Print("Could Not Find Brick " + template);
+                            Global.PrintLine("Could Not Find Brick " + template);
                         }
                         //Never had this executed so far, might not be the correct behaviour
                         else if (num >= 1 && brick.function == Brick.FUNCTION.SCRIPT)

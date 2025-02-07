@@ -1,32 +1,41 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="using:MapUnpackerMVVM.ViewModels"
-	    xmlns:li="using:LoadingIndicators.Avalonia"
-	    x:DataType="vm:ExportDialogViewModel"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:views="clr-namespace:MapUnpackerMVVM.Views"
+		xmlns:li="using:LoadingIndicators.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="640"
         x:Class="MapUnpackerMVVM.Views.ExportDialog"
-		Background="#00000080">
+        x:DataType="vm:ExportDialogViewModel"
+        Icon="/Assets/bf-logo.ico"
+        Title="Export Maps"
+		MinHeight="360"
+		MinWidth="640"
+		Width="640"
+		Height="640"
+		Background="#222222">
 
 	<Design.DataContext>
 		<vm:ExportDialogViewModel/>
 	</Design.DataContext>
-
-	<Border CornerRadius="15" Background="#444444" Padding="0" Margin="20">
-		<Grid RowDefinitions="Auto, *, 40, Auto" Margin="10">
-		<!-- Close Button -->
-		<Button x:Name="ExitButton" IsEnabled="True" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnCancelClick"/>
-
 		<!-- Main Content -->
-		<Grid Grid.Row="1" ColumnDefinitions="3*, 1*">
+		<Grid ColumnDefinitions="3*, 1*" Margin="10">
 			<!-- DataGrid -->
-			<DataGrid Margin="0,0,10,0" ItemsSource="{Binding RegMaps, Mode=TwoWay}"
+			<DataGrid Margin="0,0,10,0" ItemsSource="{Binding RegMapsViewModel.RegMaps, Mode=TwoWay}"
                       CanUserReorderColumns="True"
                       CanUserResizeColumns="True"
                       CanUserSortColumns="True"
                       GridLinesVisibility="All"
                       BorderThickness="1" BorderBrush="Gray">
 				<DataGrid.Columns>
-					<DataGridCheckBoxColumn Header="Export" Binding="{Binding isSelected}" IsReadOnly="False"/>
+					<DataGridTemplateColumn Width="50">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<CheckBox IsChecked="{Binding isSelected, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
 					<DataGridTextColumn Header="Name" Binding="{Binding alias}" IsReadOnly="True"/>
 					<DataGridTextColumn Header="Map ID" Binding="{Binding map}" IsReadOnly="True"/>
 					<DataGridTextColumn Header="Bricks" Binding="{Binding geometry.brickCount}" IsReadOnly="true"/>
@@ -34,8 +43,9 @@
 				</DataGrid.Columns>
 			</DataGrid>
 
+			<Grid RowDefinitions="*, Auto"  Grid.Column="1">
 			<!-- Export Options Column -->
-			<StackPanel Grid.Column="1" Spacing="5">
+			<StackPanel Grid.Row="0" Spacing="5">
 				<CheckBox Content="Export .regmap" IsChecked="{Binding ExportRegMap}"/>
 				<CheckBox Content="Export .geometry" IsChecked="{Binding ExportGeometry}"/>
 				<CheckBox Content="Export JSON" IsChecked="{Binding ExportJson}"/>
@@ -43,22 +53,14 @@
 				<CheckBox Content="Export Plaintext" IsChecked="{Binding Plaintext}"/>
 				<CheckBox Content="Export All" IsChecked="{Binding ExportAll}"/>
 			</StackPanel>
-		</Grid>
 
 		<!-- Export Button -->
-			<Button x:Name="ButtonExport" Grid.Row="2" HorizontalAlignment="Right" Click="OnExportClick" IsEnabled="True">
+			<Button x:Name="ButtonExport" Grid.Row="1" HorizontalAlignment="Right" Click="OnExportClick" IsEnabled="True" MaxHeight="40" MaxWidth="100" Height="40" Width="100">
 				<Panel>
-					<li:LoadingIndicator x:Name="ExportSpinner" IsVisible="False" IsActive="False" Mode="Arcs" SpeedRatio="1.2" Width="40" Height="40" />
-					<TextBlock Text="Export" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<li:LoadingIndicator x:Name="ExportSpinner" IsVisible="False" IsActive="False" Mode="Arcs" SpeedRatio="1.2" />
+					<TextBlock x:Name="TextBlock" Text="Export" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 				</Panel>
 			</Button>
-
-			<Expander x:Name="LogExpander" Header="Log" IsExpanded="True" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0">
-				<ScrollViewer x:Name="LogScrollViewer" VerticalScrollBarVisibility="Auto" Height="100" MaxHeight="100">
-					<TextBlock x:Name="LogTextBlock" TextWrapping="Wrap"
-							   FontFamily="Monospace" FontSize="12" />
-				</ScrollViewer>
-			</Expander>
+			</Grid>
 	</Grid>
-	</Border>
-</UserControl>
+</Window>

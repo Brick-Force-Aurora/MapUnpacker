@@ -13,7 +13,7 @@ using Avalonia.Threading;
 
 namespace MapUnpackerMVVM.Views;
 
-public partial class ExportDialog : UserControl
+public partial class ExportDialog : Window
 {
     // Parameterless constructor for XAML designer support
     public ExportDialog()
@@ -29,12 +29,6 @@ public partial class ExportDialog : UserControl
         InitializeComponent();
         _viewModel = viewModel;
         DataContext = _viewModel;
-    }
-
-    private void OnCancelClick(object? sender, RoutedEventArgs e)
-    {
-        // Hide the dialog
-        this.IsVisible = false;
     }
 
     private string CreateExportDirectory(string name, int id)
@@ -87,107 +81,123 @@ public partial class ExportDialog : UserControl
 
     private async void OnExportClick(object? sender, RoutedEventArgs e)
     {
-        ExportSpinner.IsActive = true; // Show loading indicator
-        ExportSpinner.IsVisible = true;
-        ButtonExport.IsEnabled = false;
-        ExitButton.IsEnabled = false;
-        if (_viewModel.RegMaps.Count <= 0)
+        if (_viewModel.RegMapsViewModel.RegMaps.Count <= 0)
         {
-            Global.Print("No maps selected for export!");
+            Global.PrintLine("No maps selected for export!");
         } else
         {
-            Global.Print(_viewModel.RegMaps.Count + " maps will be exported!");
-        }
-        await Task.Run(() =>
-        {
-            foreach (RegMap map in _viewModel.RegMaps)
+            ExportSpinner.IsActive = true; // Show loading indicator
+            ExportSpinner.IsVisible = true;
+            ButtonExport.IsEnabled = false;
+            TextBlock.IsVisible = false;
+            Global.PrintLine(_viewModel.RegMapsViewModel.RegMaps.Count + " maps will be exported!");
+            await Task.Run(() =>
             {
-                if (map == null)
+                foreach (RegMap map in _viewModel.RegMapsViewModel.RegMaps)
                 {
-                    continue;
+                    if (map == null)
+                    {
+                        continue;
+                    }
+                    if (_viewModel.ExportAll || map.isSelected)
+                    {
+                        if (_viewModel.ExportJson)
+                        {
+                            string json = JsonConvert.SerializeObject(Converter.RegMapToBFRE(map));
+                            MapHeader mapData = new MapHeader(map);
+                            string mapHeader = JsonConvert.SerializeObject(mapData);
+                            mapHeader = mapHeader.Remove(0, 1);
+                            json = FixJSONFormat(json);
+                            string exportString = "{\"MapData\":{" + mapHeader + "," + json;
+                            string name = FilterPathName(map.alias);
+                            string path = CreateExportDirectory(name, map.map);
+                            File.WriteAllText(path + "\\" + name + ".json", exportString);
+                            try
+                            {
+                                map.thumbnail.Save(path + "\\IMG-" + name + ".png");
+                            }
+
+                            catch (Exception ex)
+                            {
+                                Global.PrintLine("-------------------");
+                                Global.PrintLine("Could not save thumbnail");
+                                Global.PrintLine("-------------------");
+                            }
+
+                            Global.PrintLine("Path: " + path);
+                            Global.PrintLine("Json Exported!");
+                        }
+
+                        if (_viewModel.ExportObj)
+                        {
+                            string obj = Converter.RegMapToOBJ(map);
+                            string name = FilterPathName(map.alias);
+                            int id = map.map;
+
+                            string path = CreateExportDirectory(name, id);
+
+                            //save textures
+                            Global.Print("Saved textures: [");
+                            for (int i = 0; i < ObjParser.referencedTextures.Count; i++)
+                            {
+                                File.WriteAllBytes(path + "\\" + ObjParser.referencedTextures[i].name, ObjParser.referencedTextures[i].data);
+                                if (i < ObjParser.referencedTextures.Count - 1)
+                                {
+                                    Global.Print(ObjParser.referencedTextures[i].name + ", ");
+                                } else
+                                {
+                                    Global.PrintLine(ObjParser.referencedTextures[i].name + "]");
+                                }
+                            }
+
+                            //save mtl
+                            File.WriteAllText(path + "\\" + name + ".mtl", ObjParser.mtlString);
+                            Global.PrintLine("Saved " + name + ".mtl");
+
+                            //save obj
+                            File.WriteAllText(path + "\\" + name + ".obj", obj);
+                            Global.PrintLine("Saved " + name + ".obj");
+
+                            Global.PrintLine("Path: " + path);
+
+                            Global.PrintLine("OBJ Exported!");
+
+                            //clean up
+                            GC.Collect();
+                            ObjParser.referencedTextures.Clear();
+                            ObjParser.loadedObjs.Clear();
+                        }
+
+                        if (_viewModel.ExportRegMap)
+                        {
+                        }
+
+                        if (_viewModel.ExportGeometry)
+                        {
+                        }
+
+                        if (_viewModel.Plaintext)
+                        {
+                            string plaintext = Converter.RegMapToPlaintext(map);
+                            string name = FilterPathName(map.alias);
+                            string path = CreateExportDirectory(name, map.map);
+                            File.WriteAllText(path + "\\" + name + ".txt", plaintext);
+                            Global.PrintLine("Saved " + name + ".txt");
+
+                            Global.PrintLine("Path: " + path);
+
+                            Global.PrintLine("Plaintext Exported!");
+
+                        }
+                    }
                 }
-                if (_viewModel.ExportAll || map.isSelected)
-                {
-                    if (_viewModel.ExportJson)
-                    {
-                        string json = JsonConvert.SerializeObject(Converter.RegMapToBFRE(map));
-                        MapHeader mapData = new MapHeader(map);
-                        string mapHeader = JsonConvert.SerializeObject(mapData);
-                        mapHeader = mapHeader.Remove(0, 1);
-                        json = FixJSONFormat(json);
-                        string exportString = "{\"MapData\":{" + mapHeader + "," + json;
-                        string name = FilterPathName(map.alias);
-                        string path = CreateExportDirectory(name, map.map);
-                        File.WriteAllText(path + "\\" + name + ".json", exportString);
-                        try
-                        {
-                            map.thumbnail.Save(path + "\\IMG-" + name + ".png");
-                        }
+            });
 
-                        catch (Exception ex)
-                        {
-                            Global.Print("-------------------");
-                            Global.Print("Could not save thumbnail");
-                            Global.Print("-------------------");
-                        }
-
-                        Global.Print("Path: " + path);
-                        Global.Print("Json Exported!");
-                    }
-
-                    if (_viewModel.ExportObj)
-                    {
-                        string obj = Converter.RegMapToOBJ(map);
-                        string name = FilterPathName(map.alias);
-                        int id = map.map;
-
-                        string path = CreateExportDirectory(name, id);
-
-                        //save textures
-                        for (int i = 0; i < ObjParser.referencedTextures.Count; i++)
-                        {
-                            File.WriteAllBytes(path + "\\" + ObjParser.referencedTextures[i].name, ObjParser.referencedTextures[i].data);
-                            Global.Print("Saved " + ObjParser.referencedTextures[i].name);
-                        }
-
-                        //save mtl
-                        File.WriteAllText(path + "\\" + name + ".mtl", ObjParser.mtlString);
-                        Global.Print("Saved " + name + ".mtl");
-
-                        //save obj
-                        File.WriteAllText(path + "\\" + name + ".obj", obj);
-                        Global.Print("Saved " + name + ".obj");
-
-                        Global.Print("Path: " + path);
-
-                        Global.Print("OBJ Exported!");
-
-                        //clean up
-                        GC.Collect();
-                        ObjParser.referencedTextures.Clear();
-                        ObjParser.loadedObjs.Clear();
-                    }
-
-                    if (_viewModel.ExportRegMap)
-                    {
-                    }
-
-                    if (_viewModel.ExportGeometry)
-                    {
-                    }
-
-                    if (_viewModel.Plaintext)
-                    {
-                    }
-                }
-            }
-        });
-
-        ExportSpinner.IsActive = false;  // Hide loading indicator after export\
-        ExportSpinner.IsVisible = false;
-        ButtonExport.IsEnabled = true;
-        ExitButton.IsEnabled = true;
-
-        //this.IsVisible = false; // Hide the dialog after export
+            ExportSpinner.IsActive = false;  // Hide loading indicator after export\
+            ExportSpinner.IsVisible = false;
+            ButtonExport.IsEnabled = true;
+            TextBlock.IsVisible = true;
+            this.Close();
+        }
     }
 }

@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Avalonia.Platform.Storage;
+using Avalonia;
 
 namespace MapUnpackerMVVM.Views
 {
@@ -15,18 +16,12 @@ namespace MapUnpackerMVVM.Views
     {
         private readonly MainWindowViewModel _viewModel;
 
-        private readonly ExportDialogViewModel _exportDialogViewModel;
-        
-        private readonly SettingsDialogViewModel _settingsDialogViewModel;
-
         public MainWindow()
         {
             InitializeComponent();
             Global.MainWindowInstance = this;
             _viewModel = new MainWindowViewModel();
             DataContext = _viewModel;
-            _exportDialogViewModel = new ExportDialogViewModel();
-            _settingsDialogViewModel = new SettingsDialogViewModel();
             if (File.Exists(".\\Assets\\bricks.json"))
             {
                 string json = File.ReadAllText(".\\Assets\\bricks.json");
@@ -35,7 +30,49 @@ namespace MapUnpackerMVVM.Views
             }
             else
             {
-                Global.Print("Could not load bricks.json: " + Path.GetFullPath(".\\Assets\\bricks.json"));
+                Global.PrintLine("Could not load bricks.json: " + Path.GetFullPath(".\\Assets\\bricks.json"));
+            }
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
+            try
+            {
+                if (File.Exists(Global.settingsFilePath))
+                {
+                    string json = File.ReadAllText(Global.settingsFilePath);
+                    var settings = System.Text.Json.JsonSerializer.Deserialize<SettingsDialogViewModel>(json);
+
+                    if (settings != null)
+                    {
+                        Global.SkipMissingGeometry = settings.SkipMissingGeometry;
+                        Global.DefaultExportAll = settings.DefaultExportAll;
+                        Global.DefaultExportRegMap = settings.DefaultExportRegMap;
+                        Global.DefaultExportGeometry = settings.DefaultExportGeometry;
+                        Global.DefaultExportJson = settings.DefaultExportJson;
+                        Global.DefaultExportObj = settings.DefaultExportObj;
+                        Global.DefaultExportPlaintext = settings.DefaultExportPlaintext;
+
+                        Global.PrintLine("Loaded Settings from File.");
+                    }
+                }
+                else
+                {
+                    Global.SkipMissingGeometry = true;
+                    Global.DefaultExportAll = true;
+                    Global.DefaultExportRegMap = true;
+                    Global.DefaultExportGeometry = true;
+                    Global.DefaultExportJson = true;
+                    Global.DefaultExportObj = true;
+                    Global.DefaultExportPlaintext = true;
+
+                    Global.PrintLine("Initialized default settings.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Global.PrintLine("Error loading settings: " + ex.Message);
             }
         }
 
@@ -76,10 +113,9 @@ namespace MapUnpackerMVVM.Views
 
         private async void OnRegMapSelected(object? sender, SelectionChangedEventArgs e)
         {
-            var viewModel = DataContext as MainWindowViewModel;
             if (e.AddedItems.Count > 0 && e.AddedItems[0] is RegMap selectedRegMap)
             {
-                viewModel.SelectedRegMap = selectedRegMap;
+                _viewModel.SelectedRegMap = selectedRegMap;
             }
         }
 
@@ -88,57 +124,33 @@ namespace MapUnpackerMVVM.Views
             var regMap = RegMapManager.Load(filePath); // Assuming RegMapManager.Load returns a RegMap object
             if (regMap != null && regMap.map != -1)
             {
-                var viewModel = DataContext as MainWindowViewModel;
-                viewModel?.RegMaps.Add(regMap);  // Add to ObservableCollection
-                _exportDialogViewModel.RegMaps.Add(regMap);
-                Global.Print($"Loaded: {regMap.alias}");
+                _viewModel.RegMapsViewModel.RegMaps.Add(regMap);  // Add to ObservableCollection
+                Global.PrintLine($"Loaded: {regMap.alias}");
             }
             else
             {
-                Global.Print($"Failed to load: {Path.GetFileName(filePath)}");
+                Global.PrintLine($"Failed to load: {Path.GetFileName(filePath)}");
             }
         }
 
         private void OnExportAllClick(object? sender, RoutedEventArgs e)
         {
-            var exportDialog = new ExportDialog(_exportDialogViewModel)
+            var exportDialog = new ExportDialog
             {
-                IsVisible = true
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
             };
 
-            Global.ExportDialogInstance = exportDialog;
-
-            // Set Grid position and span
-            Grid.SetRow(exportDialog, 0);           // Start at row 0
-            Grid.SetColumn(exportDialog, 0);        // Start at column 0
-            Grid.SetRowSpan(exportDialog, 3);       // Span across 3 rows
-            Grid.SetColumnSpan(exportDialog, 3);    // Span across 3 columns
-
-            // Add to the Grid (assuming 'this.Content' is a Grid)
-            if (this.Content is Grid mainGrid)
-            {
-                mainGrid.Children.Add(exportDialog);
-            }
+            exportDialog.ShowDialog(this);
         }
 
         private void OnSettingsClick(object? sender, RoutedEventArgs e)
         {
-            var settingsDialog = new SettingsDialog(_settingsDialogViewModel)
+            var exportDialog = new SettingsDialog
             {
-                IsVisible = true
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
             };
 
-            // Set Grid position and span
-            Grid.SetRow(settingsDialog, 0);           // Start at row 0
-            Grid.SetColumn(settingsDialog, 0);        // Start at column 0
-            Grid.SetRowSpan(settingsDialog, 3);       // Span across 3 rows
-            Grid.SetColumnSpan(settingsDialog, 3);    // Span across 3 columns
-
-            // Add to the Grid (assuming 'this.Content' is a Grid)
-            if (this.Content is Grid mainGrid)
-            {
-                mainGrid.Children.Add(settingsDialog);
-            }
+            exportDialog.ShowDialog(this);
         }
     }
 }
