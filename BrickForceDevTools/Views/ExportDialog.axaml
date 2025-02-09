@@ -1,0 +1,66 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BrickForceDevTools.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:views="clr-namespace:BrickForceDevTools.Views"
+		xmlns:li="using:LoadingIndicators.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="640"
+        x:Class="BrickForceDevTools.Views.ExportDialog"
+        x:DataType="vm:ExportDialogViewModel"
+        Icon="/Assets/bf-logo.ico"
+        Title="Export Maps"
+		MinHeight="360"
+		MinWidth="640"
+		Width="640"
+		Height="640"
+		Background="#222222">
+
+	<Design.DataContext>
+		<vm:ExportDialogViewModel/>
+	</Design.DataContext>
+		<!-- Main Content -->
+		<Grid ColumnDefinitions="3*, 1*" Margin="10">
+			<!-- DataGrid -->
+			<DataGrid Margin="0,0,10,0" ItemsSource="{Binding RegMapsViewModel.RegMaps, Mode=TwoWay}"
+                      CanUserReorderColumns="True"
+                      CanUserResizeColumns="True"
+                      CanUserSortColumns="True"
+                      GridLinesVisibility="All"
+                      BorderThickness="1" BorderBrush="Gray">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Width="50">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<CheckBox IsChecked="{Binding isSelected, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Header="Name" Binding="{Binding alias}" IsReadOnly="True"/>
+					<DataGridTextColumn Header="Map ID" Binding="{Binding map}" IsReadOnly="True"/>
+					<DataGridTextColumn Header="Bricks" Binding="{Binding geometry.brickCount}" IsReadOnly="true"/>
+					<DataGridTextColumn Header="Creator" Binding="{Binding developer}" IsReadOnly="True"/>
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<Grid RowDefinitions="*, Auto"  Grid.Column="1">
+			<!-- Export Options Column -->
+			<StackPanel Grid.Row="0" Spacing="5">
+				<CheckBox Content="Export .regmap" IsChecked="{Binding ExportRegMap}"/>
+				<CheckBox Content="Export .geometry" IsChecked="{Binding ExportGeometry}"/>
+				<CheckBox Content="Export JSON" IsChecked="{Binding ExportJson}"/>
+				<CheckBox Content="Export OBJ" IsChecked="{Binding ExportObj}"/>
+				<CheckBox Content="Export Plaintext" IsChecked="{Binding Plaintext}"/>
+				<CheckBox Content="Export All" IsChecked="{Binding ExportAll}"/>
+			</StackPanel>
+
+		<!-- Export Button -->
+			<Button x:Name="ButtonExport" Grid.Row="1" HorizontalAlignment="Right" Click="OnExportClick" IsEnabled="True" MaxHeight="40" MaxWidth="100" Height="40" Width="100">
+				<Panel>
+					<li:LoadingIndicator x:Name="ExportSpinner" IsVisible="False" IsActive="False" Mode="Arcs" SpeedRatio="1.2" />
+					<TextBlock x:Name="TextBlock" Text="Export" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Panel>
+			</Button>
+			</Grid>
+	</Grid>
+</Window>

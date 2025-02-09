@@ -1,0 +1,146 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BrickForceDevTools.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:views="clr-namespace:BrickForceDevTools.Views"
+        mc:Ignorable="d" d:DesignWidth="1366" d:DesignHeight="768"
+        x:Class="BrickForceDevTools.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/bf-logo.ico"
+        Title="Brick-Force Dev Tools"
+		ExtendClientAreaToDecorationsHint="True"
+		MinHeight="800"
+		MinWidth="1200"
+		Background="#222222">
+	<Window.Styles>
+		<Style Selector="TabControl WrapPanel">
+			<Setter Property="Background" Value="#3b3b3b"/>
+		</Style>
+	</Window.Styles>
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+	<Grid RowDefinitions="*, Auto" Margin="0,30,0,0">
+	<Image Source="/Assets/bf-logo.ico" Stretch="Uniform" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,-25,0,0"/>
+	<TextBlock Text="Brick-Force Dev Tools" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,-24,0,0"></TextBlock>
+	<TabControl>
+		<TabItem Header="Map Unpacker" VerticalContentAlignment="Center">
+		<Grid RowDefinitions="Auto, *" Margin="10">
+			<!-- Menu Bar -->
+			<StackPanel Orientation="Horizontal" Spacing="5">
+				<Button x:Name="BtnLoadFile" Content="Open File" Click="OnLoadFileClick"/>
+				<Button x:Name="BtnLoadFolder" Content="Open Folder" Click="OnLoadFolderClick"/>
+			</StackPanel>
+
+			<!-- Main Content Area -->
+					<Grid ColumnDefinitions="3*, 2*, 1*" Row="1" Margin="0,10,0,10">
+						<!-- Left: Placeholder for TreeDataGrid -->
+						<DataGrid Margin="0,0,10,0"
+							ItemsSource="{Binding RegMapsViewModel.RegMaps, Mode=TwoWay}"
+							SelectedItem="{Binding SelectedRegMap, Mode=TwoWay}"
+							IsReadOnly="True"
+							CanUserReorderColumns="True"
+							CanUserResizeColumns="True"
+							CanUserSortColumns="True"
+							GridLinesVisibility="All"
+							BorderThickness="1" BorderBrush="Gray"
+							SelectionChanged="OnRegMapSelected">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="Name"  Binding="{Binding alias}"/>
+								<DataGridTextColumn Header="Map ID"  Binding="{Binding map}"/>
+								<DataGridTextColumn Header="Bricks"  Binding="{Binding geometry.brickCount}"/>
+								<DataGridTextColumn Header="Creator" Binding="{Binding developer}" />
+							</DataGrid.Columns>
+						</DataGrid>
+
+						<!-- Middle: Input Fields -->
+						<StackPanel Grid.Column="1" Spacing="5" Margin="0,0,10,0">
+							<TextBox x:Name="TxtName" Watermark="Map Name" Text="{Binding RegMapsViewModel.MapName}"/>
+							<TextBox x:Name="TxtMapId" Watermark="Map ID" Text="{Binding RegMapsViewModel.MapId}"/>
+							<TextBox x:Name="TxtCreator" Watermark="Creator" Text="{Binding RegMapsViewModel.Creator}"/>
+							<TextBox x:Name="TxtDate" Watermark="Date" Text="{Binding RegMapsViewModel.Date}" IsReadOnly="True"/>
+							<TextBox x:Name="TxtBrickCount" Watermark="Brick Count" IsReadOnly="True" Text="{Binding RegMapsViewModel.BrickCount}"/>
+							<TextBox x:Name="TxtModes" Watermark="Modes" IsReadOnly="True" Text="{Binding RegMapsViewModel.Modes}"/>
+							<CheckBox x:Name="ChkOfficial" Content="Official" IsChecked="{Binding RegMapsViewModel.IsOfficial}"/>
+							<CheckBox x:Name="ChkClan" Content="Clan" IsChecked="{Binding RegMapsViewModel.IsClan}"/>
+						</StackPanel>
+
+						<!-- Right: Thumbnail and Export Button -->
+						<StackPanel Grid.Column="2" Spacing="10">
+							<Image Source="{Binding RegMapsViewModel.Thumbnail}" Stretch="Uniform" Width="200" Height="200"/>
+							<Button x:Name="BtnExportAll" Height="50" Width="200" HorizontalAlignment="Center" Click="OnExportAllClick">
+								<TextBlock Text="Export" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							</Button>
+						</StackPanel>
+					</Grid>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Template Uncooker" VerticalContentAlignment="Center">
+				<Grid RowDefinitions="Auto, *" Margin="10">
+					<!-- Menu Bar -->
+					<StackPanel Orientation="Horizontal" Spacing="5">
+						<Button x:Name="BtnLoadCooker" Content="Open Folder" Click="LoadFiles"/>
+						<Button x:Name="BtnSaveCooked" Content="Cook" Click="SaveCookedFile"/>
+						<Button x:Name="BtnSaveUncooked" Content="Uncook" Click="SaveUncookedFile"/>
+					</StackPanel>
+
+					<!-- Main Content Area -->
+					<Grid ColumnDefinitions="2*, 3*" Row="1" Margin="0,10,0,10">
+						<!-- Left: Placeholder for TreeDataGrid -->
+						<DataGrid Margin="0,0,10,0"
+							ItemsSource="{Binding RegMapsViewModel.TemplateFiles, Mode=TwoWay}"
+							SelectedItem="{Binding SelectedTemplateFile, Mode=TwoWay}"
+							IsReadOnly="True"
+							CanUserReorderColumns="True"
+							CanUserResizeColumns="True"
+							CanUserSortColumns="True"
+							GridLinesVisibility="All"
+							BorderThickness="1" BorderBrush="Gray"
+							SelectionChanged="OnTemplateFileSelected">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="File Name"  Binding="{Binding FileName}"/>
+								<DataGridTextColumn Header="File Type"  Binding="{Binding FileType}"/>
+							</DataGrid.Columns>
+						</DataGrid>
+						<StackPanel Orientation="Vertical" Spacing="5" Grid.Column="1">
+							<TextBlock FontSize="16" Text="Preview:"/>
+							<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+								<TextBlock x:Name="CookPreview"
+										   TextWrapping="Wrap"
+										   FontFamily="Courier New"
+										   FontSize="12"
+										   Text="{Binding PreviewText}"/>
+							</ScrollViewer>
+						</StackPanel>
+					</Grid>
+				</Grid>
+			</TabItem>
+		<TabItem Header="Settings" VerticalContentAlignment="Center">
+			<Grid RowDefinitions="Auto, *" Margin="10">
+				<StackPanel Orientation="Horizontal" Spacing="5">
+					<Button Grid.Row="0" Content="Apply" HorizontalAlignment="Left" Click="OnSaveClick"/>
+					<Button Content="Clear Folders" Click="OnClearFoldersClick"/>
+				</StackPanel>
+				<!-- Main Content -->
+				<StackPanel Grid.Row="1" Spacing="5" Margin="0,10,0,0">
+					<CheckBox Content="Skip Missing Geometry" IsChecked="{Binding SkipMissingGeometry}" />
+					<CheckBox Content="Default Export All" IsChecked="{Binding DefaultExportAll}" />
+					<CheckBox Content="Default Export .regmap" IsChecked="{Binding DefaultExportRegMap}" />
+					<CheckBox Content="Default Export .geometry" IsChecked="{Binding DefaultExportGeometry}" />
+					<CheckBox Content="Default Export JSON" IsChecked="{Binding DefaultExportJson}" />
+					<CheckBox Content="Default Export OBJ" IsChecked="{Binding DefaultExportObj}" />
+					<CheckBox Content="Default Export Plaintext" IsChecked="{Binding DefaultExportPlaintext}" />
+				</StackPanel>			
+			</Grid>
+		</TabItem>
+		</TabControl>
+	<!-- Log Expander spanning the full width -->
+	<Expander x:Name="LogExpander"  Margin="10" Header="Log" IsExpanded="True" Grid.Row="1" HorizontalAlignment="Stretch">
+		<ScrollViewer x:Name="LogScrollViewer" VerticalScrollBarVisibility="Auto" MaxHeight="300">
+			<TextBlock x:Name="LogTextBlock" TextWrapping="Wrap"
+					   FontFamily="Courier New" FontSize="12" />
+		</ScrollViewer>
+	</Expander>
+	</Grid>
+</Window>
